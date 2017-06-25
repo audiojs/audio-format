@@ -28,15 +28,15 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 
 | Value | Meaning |
 |---|---|
-| `'interleaved'` | `interleaved` is `true`, `channels` is 2 or more. |
-| `'planar'` | `interleaved` is `false`, `channels` is 2 or more. |
+| `'interleaved'` | `interleaved` is `true`, `channels` is `2` or more. |
+| `'planar'` | `interleaved` is `false`, `channels` is `2` or more. |
 
 #### `endianness` property marker
 
 | Value | Meaning |
 |---|---|
-| `'le'` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
-| `'be'` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
+| `'le'` | `endianness` is `'le'` (little endian), `dtype` is not `'int8'` or `'uint8'` |
+| `'be'` | `endianness` is `'be'` (big endian), `dtype` is not `'int8'` or `'uint8'` |
 
 #### `channels` property marker
 
@@ -53,7 +53,7 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 
 | Value | Meaning |
 |---|---|
-| `Number` | Any number, including default [sample-rate](https://github.com/audiojs/sample-rate)s |
+| `Number` | Any number, primarily [default sample-rates](https://github.com/audiojs/sample-rate) |
 
 #### `dtype` property marker
 
@@ -72,8 +72,8 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 | `'arraybuffer'` | _ArrayBuffer_ |
 | `'buffer'` | _Buffer_ |
 | `'audiobuffer'` | _AudioBuffer_ |
-| `'ndarray'` | _ndarray_ |
-| `'ndsamples'` | _ndsamples_ |
+| `'ndarray'` | [_ndarray_](https://github.com/scijs/ndarray) |
+| `'ndsamples'` | [_ndsamples_](https://github.com/livejs/ndsamples) |
 
 
 ### str = format.stringify(obj, defaults?)
@@ -87,7 +87,10 @@ format.stringify({channels: 2, interleaved: false})
 format.stringify(new AudioBuffer(null, {length: 10}))
 // 'mono audiobuffer 44100'
 
-format.stringify({dtype: 'float32', endianness: 'le', interleaved: false, channels: 2}, {endianness: 'le', dtype: 'float32'})
+format.stringify(
+	{dtype: 'float32', endianness: 'le', interleaved: false, channels: 2},
+	{endianness: 'le', dtype: 'float32'
+})
 // 'stereo planar'
 ```
 

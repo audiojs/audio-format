@@ -1,6 +1,6 @@
-# audio-format [![Build Status](https://travis-ci.org/audiojs/audio-format.svg?branch=master)](https://travis-ci.org/audiojs/audio-format) [![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](http://github.com/badges/stability-badges) [![Greenkeeper badge](https://badges.greenkeeper.io/audiojs/audio-format.svg)](https://greenkeeper.io/)
+# audio-format [![Build Status](https://travis-ci.org/audiojs/audio-format.svg?branch=master)](https://travis-ci.org/audiojs/audio-format) [![unstable](https://img.shields.io/badge/stability-unstable-green.svg)](http://github.com/badges/stability-badges) [![Greenkeeper badge](https://badges.greenkeeper.io/audiojs/audio-format.svg)](https://greenkeeper.io/)
 
-Audio formats are used to identify any audio data type.
+Audio formats are used to identify universally any audio data parameters, such as number of channels, sample rate, data type, data container and data layout.
 
 ## Usage
 
@@ -8,7 +8,7 @@ Audio formats are used to identify any audio data type.
 
 ### obj = format.parse(string|obj)
 
-Parse format properties from a format string or data container. Returns only surely detected properties.
+Parse format properties from a string or data container. Returns only guaranteed properties and does not try to guess them.
 
 ```js
 format.parse('interleaved uint8 le stereo 44100')
@@ -24,23 +24,23 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 // {dtype: 'uint8'}
 ```
 
-#### `interleaved`
+#### `interleaved` property marker
 
 | Marker | Meaning |
 |---|---|
 | `interleaved` | `interleaved` is `true`, `channels` is 2 or more. |
 | `planar` | `interleaved` is `false`, `channels` is 2 or more. |
 
-#### `endianness`
+#### `endianness` property marker
 
-| Marker | Meaning |
+| Value | Meaning |
 |---|---|
 | `le` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
 | `be` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
 
-#### `channels`
+#### `channels` property marker
 
-| Marker | Meaning |
+| Value | Meaning |
 |---|---|
 | `mono` | 1 channel |
 | `stereo` | 2 channels |
@@ -49,15 +49,15 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 | `5.1` | 5 channels |
 | `*-channel` | N channels |
 
-#### sampleRate
+#### `sampleRate` property marker
 
-| Marker | Meaning |
+| Value | Meaning |
 |---|---|
 | `Number` | Any number, including default [sample-rate](https://github.com/audiojs/sample-rate)s |
 
-#### dtype
+#### `dtype` property marker
 
-| Marker | Meaning |
+| Value | Meaning |
 |---|---|
 | `uint8` | _Uint8Array_ |
 | `uint8clamped` | _Uint8ClampedArray_ |

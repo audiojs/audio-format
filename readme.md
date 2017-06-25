@@ -26,28 +26,28 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 
 #### `interleaved` property marker
 
-| Marker | Meaning |
+| Value | Meaning |
 |---|---|
-| `interleaved` | `interleaved` is `true`, `channels` is 2 or more. |
-| `planar` | `interleaved` is `false`, `channels` is 2 or more. |
+| `'interleaved'` | `interleaved` is `true`, `channels` is 2 or more. |
+| `'planar'` | `interleaved` is `false`, `channels` is 2 or more. |
 
 #### `endianness` property marker
 
 | Value | Meaning |
 |---|---|
-| `le` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
-| `be` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
+| `'le'` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
+| `'be'` | `endianness` is `le` (little endian), `dtype` is not `'int8'` or `'uint8'` |
 
 #### `channels` property marker
 
 | Value | Meaning |
 |---|---|
-| `mono` | 1 channel |
-| `stereo` | 2 channels |
-| `2.1` | 3 channels |
-| `quad` | 4 channels |
-| `5.1` | 5 channels |
-| `*-channel` | N channels |
+| `'mono'` | 1 channel |
+| `'stereo'` | 2 channels |
+| `'2.1'` | 3 channels |
+| `'quad'` | 4 channels |
+| `'5.1'` | 5 channels |
+| `'*-channel'` | N channels |
 
 #### `sampleRate` property marker
 
@@ -59,21 +59,21 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 
 | Value | Meaning |
 |---|---|
-| `uint8` | _Uint8Array_ |
-| `uint8clamped` | _Uint8ClampedArray_ |
-| `uint16` | _Uint16Array_ |
-| `uint32` | _Uint32Array_ |
-| `int8` | _Int8Array_ |
-| `int16` | _Int16Array_ |
-| `int32` | _Int32Array_ |
-| `float32` | _Float32Array_ |
-| `float64` | _Float64Array_ |
-| `array` | _Array_ |
-| `arraybuffer` | _ArrayBuffer_ |
-| `buffer` | _Buffer_ |
-| `audiobuffer` | _AudioBuffer_ |
-| `ndarray` | _ndarray_ |
-| `ndsamples` | _ndsamples_ |
+| `'uint8'` | _Uint8Array_ |
+| `'uint8_clamped'` | _Uint8ClampedArray_ |
+| `'uint16'` | _Uint16Array_ |
+| `'uint32'` | _Uint32Array_ |
+| `'int8'` | _Int8Array_ |
+| `'int16'` | _Int16Array_ |
+| `'int32'` | _Int32Array_ |
+| `'float32'` | _Float32Array_ |
+| `'float64'` | _Float64Array_ |
+| `'array'` | _Array_ |
+| `'arraybuffer'` | _ArrayBuffer_ |
+| `'buffer'` | _Buffer_ |
+| `'audiobuffer'` | _AudioBuffer_ |
+| `'ndarray'` | _ndarray_ |
+| `'ndsamples'` | _ndsamples_ |
 
 
 ### str = format.stringify(obj, defaults?)

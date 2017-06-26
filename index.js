@@ -60,7 +60,7 @@ function parse (str) {
 		var channels = str.channels || str.numberOfChannels || str.channelCount
 		var sampleRate = str.sampleRate || str.rate || (str.format && str.format.sampleRate)
 		var interleaved = str.interleaved
-		var type = getType(str)
+		var type = getType(str) || str.dtype || str.type
 
 		if (channels) format.channels = channels
 		if (sampleRate) format.sampleRate = sampleRate

@@ -88,6 +88,12 @@ t('parse interleaved obj', t => {
 })
 
 
+t('parse obj', t => {
+	t.deepEqual(format.parse({type: 'int16'}), {type: 'int16'})
+	t.end()
+})
+
+
 t('stringify plain', t => {
 	t.equal(
 		format.stringify({channels: 2, interleaved: false}),

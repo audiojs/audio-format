@@ -12,16 +12,16 @@ Parse format properties from a string or data container. Returns only guaranteed
 
 ```js
 format.parse('interleaved uint8 le stereo 44100')
-// {interleaved: true, dtype: 'uint8', endianness: 'le', channels: 2, sampleRate: 44100}
+// {interleaved: true, type: 'uint8', endianness: 'le', channels: 2, sampleRate: 44100}
 
 format.parse('stereo audiobuffer 96000')
-// {channels: 2, dtype: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
+// {channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
 
 format.parse(new AudioBuffer(null, {length: 10, numberOfChannels: 2}))
-// {channels: 2, dtype: 'audiobuffer', sampleRate: 44100, endianness: 'le', interleaved: false}
+// {channels: 2, type: 'audiobuffer', sampleRate: 44100, endianness: 'le', interleaved: false}
 
 format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
-// {dtype: 'uint8'}
+// {type: 'uint8_clamped'}
 ```
 
 #### `interleaved` property marker
@@ -35,8 +35,8 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 
 | Value | Meaning |
 |---|---|
-| `'le'` | `endianness` is `'le'` (little endian), `dtype` is not `'int8'` or `'uint8'` |
-| `'be'` | `endianness` is `'be'` (big endian), `dtype` is not `'int8'` or `'uint8'` |
+| `'le'` | `endianness` is `'le'` (little endian), `type` is not `'int8'` or `'uint8'` |
+| `'be'` | `endianness` is `'be'` (big endian), `type` is not `'int8'` or `'uint8'` |
 
 #### `channels` property marker
 
@@ -55,7 +55,7 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 |---|---|
 | `Number` | Any number, primarily [default sample-rates](https://github.com/audiojs/sample-rate) |
 
-#### `dtype` property marker
+#### `type` property marker
 
 | Value | Meaning |
 |---|---|
@@ -88,13 +88,13 @@ format.stringify(new AudioBuffer(null, {length: 10}))
 // 'mono audiobuffer 44100'
 
 format.stringify(
-	{dtype: 'float32', endianness: 'le', interleaved: false, channels: 2},
-	{endianness: 'le', dtype: 'float32'
-})
+	{type: 'float32', endianness: 'le', interleaved: false, channels: 2},
+	{endianness: 'le', type: 'float32'}
+)
 // 'stereo planar'
 ```
 
 ## See also
 
-* [audio-convert](https://github.com/audiojs/pcm-convert) converts audio data from one format to another
-* [pcm-convert](https://github.com/audiojs/pcm-convert) converts pcm data from one format to another
+* [audio-convert](https://github.com/audiojs/pcm-convert) convert, remix or resample audio data
+* [pcm-convert](https://github.com/audiojs/pcm-convert) converts low-level pcm data from one format to another

@@ -1,7 +1,7 @@
 {
   "name": "audio-format",
-  "version": "4.0.1",
-  "description": "Parse, stringify or guess audio format",
+  "version": "1.0.0",
+  "description": "Parse or stringify audio format",
   "main": "index.js",
   "scripts": {
     "test": "node test",
@@ -21,8 +21,7 @@
     "ndsamples",
     "audio-format",
     "web-audio",
-    "waa",
-    "data-structures"
+    "waa"
   ],
   "author": "Dima Yv <dfcreative@gmail.com>",
   "license": "MIT",

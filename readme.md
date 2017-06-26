@@ -24,6 +24,25 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 // {type: 'uint8_clamped'}
 ```
 
+### str = format.stringify(obj, defaults?)
+
+Get string identifying the format object. Optional `defaults` object can indicate properties to skip if format value matches them.
+
+```js
+format.stringify({channels: 2, interleaved: false})
+// 'stereo planar'
+
+format.stringify(new AudioBuffer(null, {length: 10}))
+// 'mono audiobuffer 44100'
+
+format.stringify(
+	{type: 'float32', endianness: 'le', interleaved: false, channels: 2},
+	{endianness: 'le', type: 'float32'}
+)
+// 'stereo planar'
+```
+
+
 #### `interleaved` property marker
 
 | Value | Meaning |
@@ -75,24 +94,6 @@ format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
 | `'ndarray'` | [_ndarray_](https://github.com/scijs/ndarray) |
 | `'ndsamples'` | [_ndsamples_](https://github.com/livejs/ndsamples) |
 
-
-### str = format.stringify(obj, defaults?)
-
-Get string identifying the format object. Optional `defaults` object can indicate properties to skip if format value matches them.
-
-```js
-format.stringify({channels: 2, interleaved: false})
-// 'stereo planar'
-
-format.stringify(new AudioBuffer(null, {length: 10}))
-// 'mono audiobuffer 44100'
-
-format.stringify(
-	{type: 'float32', endianness: 'le', interleaved: false, channels: 2},
-	{endianness: 'le', type: 'float32'}
-)
-// 'stereo planar'
-```
 
 ## See also
 

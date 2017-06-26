@@ -47,8 +47,8 @@ format.detect(new AudioBuffer(null, {length: 10, numberOfChannels: 2}))
 format.detect(new Uint8ClampedArray([0, 255, 0, 255]))
 // {type: 'uint8_clamped'}
 
-format.detect(ndarray)
-// {type: 'ndarray', interleaved: false}
+format.detect(ndarray([0,0,0,0], [2,2]))
+// {type: 'ndarray', interleaved: false, channels: 2}
 ```
 
 ### str = format.type(obj)
@@ -61,7 +61,7 @@ format.type(new Float32Array([-1, 1])) // 'float32'
 format.type(new Float32Array([-1, 1]).buffer) // 'arraybuffer'
 format.type(Array(100)) // 'array'
 format.type(Buffer.from([0, 1, ...])) // 'buffer'
-format.type(ndarray) // 'ndarray'
+format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 ```
 
 

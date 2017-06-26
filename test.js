@@ -120,7 +120,7 @@ t('stringify defaults', t => {
 	t.end()
 })
 
-t('detect type', t => {
+t('format.type', t => {
 	var nd = ndarray(new Float32Array([0,0,0,0]), [2,2])
 
 	t.equal(

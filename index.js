@@ -8,10 +8,13 @@ var os = require('os')
 var isAudioBuffer = require('is-audio-buffer')
 var isBuffer = require('is-buffer')
 var isPlainObj = require('is-plain-obj')
+var assert = require('assert')
 
 module.exports = {
 	parse: parse,
-	stringify: stringify
+	stringify: stringify,
+	detect: detect,
+	type: getType
 }
 
 var endianness = os.endianness instanceof Function ? os.endianness().toLowerCase() : 'le'
@@ -41,7 +44,8 @@ var channelNumber = {
 	'3-channel': 3,
 	'5-channel': 5
 }
-for (var i = 6; i < 32; i++) {
+var maxChannels = 32
+for (var i = 6; i < maxChannels; i++) {
 	channelNumber[i + '-channel'] = i
 }
 
@@ -50,34 +54,11 @@ for (var name in channelNumber) {
 	channelName[channelNumber[name]] = name
 }
 
+//parse format string
 function parse (str) {
-	if (!str) return {}
+	assert(typeof str === 'string', 'Format to parse should be a string')
 
 	var format = {}
-
-	//non-string args
-	if (typeof str != 'string') {
-		var channels = str.channels || str.numberOfChannels || str.channelCount
-		var sampleRate = str.sampleRate || str.rate || (str.format && str.format.sampleRate)
-		var interleaved = str.interleaved
-		var type = getType(str) || str.dtype || str.type
-
-		if (channels) format.channels = channels
-		if (sampleRate) format.sampleRate = sampleRate
-		if (interleaved != null) {
-			format.interleaved = interleaved
-			if (format.channels == null) format.channels = 2
-		}
-		if (type) format.type = type
-		if (str.endianness) format.endianness = str.endianness
-
-		if (format.type === 'audiobuffer') {
-			format.endianness = endianness
-			format.interleaved = false
-		}
-
-		return format
-	}
 
 	var parts = str.split(/\s+/)
 
@@ -110,6 +91,38 @@ function parse (str) {
 	return format
 }
 
+
+//parse available format properties from an object
+function detect (obj) {
+	if (!obj) return {}
+
+	var format = {}
+
+	//non-string args
+	var channels = obj.channels || obj.numberOfChannels || obj.channelCount
+	var sampleRate = obj.sampleRate || obj.rate || (obj.format && obj.format.sampleRate)
+	var interleaved = obj.interleaved
+	var type = getType(obj) || obj.dtype || obj.type
+
+	if (channels) format.channels = channels
+	if (sampleRate) format.sampleRate = sampleRate
+	if (interleaved != null) {
+		format.interleaved = interleaved
+		if (format.channels == null) format.channels = 2
+	}
+	if (type) format.type = type
+	if (obj.endianness) format.endianness = obj.endianness
+
+	if (format.type === 'audiobuffer') {
+		format.endianness = endianness
+		format.interleaved = false
+	}
+
+	return format
+}
+
+
+//convert format string to format object
 function stringify (format, omit) {
 	if (omit === undefined) {
 		omit = {endianness: 'le'}
@@ -117,9 +130,11 @@ function stringify (format, omit) {
 		omit = {}
 	} else if (typeof omit === 'string') {
 		omit = parse(omit)
+	} else {
+		omit = detect(omit)
 	}
 
-	if (!isPlainObj(format)) format = parse(format)
+	if (!isPlainObj(format)) format = detect(format)
 
 	var parts = []
 
@@ -135,6 +150,7 @@ function stringify (format, omit) {
 }
 
 
+//return type string for an object
 function getType (str) {
 	if (isAudioBuffer(str)) return 'audiobuffer'
 	if (isBuffer(str)) return 'buffer'

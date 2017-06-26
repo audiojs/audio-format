@@ -22,25 +22,25 @@ t('parse audiobuffer', t => {
 	t.end()
 })
 
-t('parse real audio buffer', t => {
+t('detect audio buffer', t => {
 	t.deepEqual(
-		format.parse(new AudioBuffer(null, {length: 10, numberOfChannels: 2})),
+		format.detect(new AudioBuffer(null, {length: 10, numberOfChannels: 2})),
 		{channels: 2, type: 'audiobuffer', sampleRate: 44100, endianness: 'le', interleaved: false}
 	)
 
 	t.end()
 })
 
-t('parse typed array', t => {
+t('detect typed array', t => {
 	t.deepEqual(
-		format.parse(new Uint8ClampedArray([0, 255, 0, 255])),
+		format.detect(new Uint8ClampedArray([0, 255, 0, 255])),
 		{type: 'uint8_clamped'}
 	)
 
 	t.end()
 })
 
-t('parse ndsamples', t => {
+t('detect ndsamples', t => {
 	let data = [
 		0, 0.5,
 		-0.5, 0,
@@ -57,7 +57,7 @@ t('parse ndsamples', t => {
 		format: dataFormat
 	})
 
-	t.deepEqual(format.parse(samples),
+	t.deepEqual(format.detect(samples),
 		{sampleRate: 48000, type: 'ndsamples', channels: 2})
 
 	t.end()
@@ -82,14 +82,14 @@ t('parse planar channels', t => {
 })
 
 t('parse interleaved obj', t => {
-	t.deepEqual(format.parse({interleaved: true}), {channels: 2, interleaved: true})
+	t.deepEqual(format.detect({interleaved: true}), {channels: 2, interleaved: true})
 
 	t.end()
 })
 
 
 t('parse obj', t => {
-	t.deepEqual(format.parse({type: 'int16'}), {type: 'int16'})
+	t.deepEqual(format.detect({type: 'int16'}), {type: 'int16'})
 	t.end()
 })
 
@@ -112,10 +112,41 @@ t('stringify audiobuffer', t => {
 	t.end()
 })
 
-t('stringify skip', t => {
+t('stringify defaults', t => {
 	t.equal(
 		format.stringify({type: 'float32', endianness: 'le', interleaved: false, channels: 2}, {endianness: 'le', type: 'float32'}),
 		'stereo planar'
 	)
+	t.end()
+})
+
+t('detect type', t => {
+	var nd = ndarray(new Float32Array([0,0,0,0]), [2,2])
+
+	t.equal(
+		format.type(new AudioBuffer(null, {length: 1024})),
+		'audiobuffer'
+	)
+	t.equal(
+		format.type(new Float32Array([-1, 1])),
+		'float32'
+	)
+	t.equal(
+		format.type(new Float32Array([-1, 1]).buffer),
+		'arraybuffer'
+	)
+	t.equal(
+		format.type(Array(100)),
+		'array'
+	)
+	t.equal(
+		format.type(Buffer.from([0, 1])),
+		'buffer'
+	)
+	t.equal(
+		format.type(nd),
+		'ndarray'
+	)
+
 	t.end()
 })

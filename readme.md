@@ -8,7 +8,7 @@ Shorthand notation for audio data formats.
 
 ### obj = format.parse(string|obj)
 
-Parse format properties from a string or data container. Returns only guaranteed properties and does not try to guess them.
+Parse format properties from a string. Returns only guaranteed properties and does not try to guess them.
 
 ```js
 format.parse('interleaved uint8 le stereo 44100')
@@ -16,12 +16,6 @@ format.parse('interleaved uint8 le stereo 44100')
 
 format.parse('stereo audiobuffer 96000')
 // {channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
-
-format.parse(new AudioBuffer(null, {length: 10, numberOfChannels: 2}))
-// {channels: 2, type: 'audiobuffer', sampleRate: 44100, endianness: 'le', interleaved: false}
-
-format.parse(new Uint8ClampedArray([0, 255, 0, 255]))
-// {type: 'uint8_clamped'}
 ```
 
 ### str = format.stringify(obj, defaults?)
@@ -32,14 +26,42 @@ Get string identifying the format object. Optional `defaults` object can indicat
 format.stringify({channels: 2, interleaved: false})
 // 'stereo planar'
 
-format.stringify(new AudioBuffer(null, {length: 10}))
-// 'mono audiobuffer 44100'
-
 format.stringify(
 	{type: 'float32', endianness: 'le', interleaved: false, channels: 2},
 	{endianness: 'le', type: 'float32'}
 )
 // 'stereo planar'
+
+format.stringify(new AudioBuffer(null, {length: 10}))
+// 'mono audiobuffer 44100'
+```
+
+### obj = format.detect(obj)
+
+Retrieve available format properties from any audio-like object.
+
+```js
+format.detect(new AudioBuffer(null, {length: 10, numberOfChannels: 2}))
+// {channels: 2, type: 'audiobuffer', sampleRate: 44100, endianness: 'le', interleaved: false}
+
+format.detect(new Uint8ClampedArray([0, 255, 0, 255]))
+// {type: 'uint8_clamped'}
+
+format.detect(ndarray)
+// {type: 'ndarray', interleaved: false}
+```
+
+### str = format.type(obj)
+
+Get type string identifying data container.
+
+```js
+format.type(new AudioBuffer(ctx, {length: 1024})) // 'audiobuffer'
+format.type(new Float32Array([-1, 1])) // 'float32'
+format.type(new Float32Array([-1, 1]).buffer) // 'arraybuffer'
+format.type(Array(100)) // 'array'
+format.type(Buffer.from([0, 1, ...])) // 'buffer'
+format.type(ndarray) // 'ndarray'
 ```
 
 

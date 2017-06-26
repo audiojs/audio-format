@@ -1,6 +1,6 @@
 # audio-format [![Build Status](https://travis-ci.org/audiojs/audio-format.svg?branch=master)](https://travis-ci.org/audiojs/audio-format) [![unstable](https://img.shields.io/badge/stability-unstable-green.svg)](http://github.com/badges/stability-badges) [![Greenkeeper badge](https://badges.greenkeeper.io/audiojs/audio-format.svg)](https://greenkeeper.io/)
 
-Audio formats are used to identify universally any audio data parameters, such as number of channels, sample rate, data type, data container and data layout.
+Shorthand notation for audio data formats.
 
 ## Usage
 

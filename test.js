@@ -63,6 +63,24 @@ t('parse ndsamples', t => {
 	t.end()
 })
 
+t('parse interleaved channels', t => {
+	t.deepEqual(
+		format.parse('le'),
+		{channels: 2, interleaved: false}
+	)
+
+	t.end()
+})
+
+t('parse interleaved channels', t => {
+	t.deepEqual(
+		format.parse('planar'),
+		{channels: 2, interleaved: false}
+	)
+
+	t.end()
+})
+
 
 t('stringify plain', t => {
 	t.equal(

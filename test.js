@@ -81,6 +81,12 @@ t('parse planar channels', t => {
 	t.end()
 })
 
+t('parse interleaved obj', t => {
+	t.deepEqual(format.parse({interleaved: true}), {channels: 2, interleaved: true})
+
+	t.end()
+})
+
 
 t('stringify plain', t => {
 	t.equal(
@@ -106,9 +112,4 @@ t('stringify skip', t => {
 		'stereo planar'
 	)
 	t.end()
-})
-
-t.skip('stringify edge case', t => {
-
-
 })

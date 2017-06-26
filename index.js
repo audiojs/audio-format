@@ -64,7 +64,10 @@ function parse (str) {
 
 		if (channels) format.channels = channels
 		if (sampleRate) format.sampleRate = sampleRate
-		if (interleaved) format.interleaved = interleaved
+		if (interleaved != null) {
+			format.interleaved = interleaved
+			if (format.channels == null) format.channels = 2
+		}
 		if (type) format.type = type
 		if (str.endianness) format.endianness = str.endianness
 

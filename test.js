@@ -22,6 +22,14 @@ t('parse audiobuffer', t => {
 	t.end()
 })
 
+t('parse commas', t => {
+	t.deepEqual(
+		format.parse('stereo,audiobuffer , 96000'),
+		{channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
+	)
+	t.end()
+})
+
 t('detect audio buffer', t => {
 	t.deepEqual(
 		format.detect(new AudioBuffer(null, {length: 10, numberOfChannels: 2})),

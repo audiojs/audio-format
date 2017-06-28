@@ -22,9 +22,13 @@ t('parse audiobuffer', t => {
 	t.end()
 })
 
-t('parse commas', t => {
+t('parse commas and colons', t => {
 	t.deepEqual(
 		format.parse('stereo,audiobuffer , 96000'),
+		{channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
+	)
+	t.deepEqual(
+		format.parse('stereo;audiobuffer - 96000'),
 		{channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
 	)
 	t.end()

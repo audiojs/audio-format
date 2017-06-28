@@ -60,7 +60,7 @@ function parse (str) {
 
 	var format = {}
 
-	var parts = str.split(/\s*,\s*|\s/)
+	var parts = str.split(/\s*[,;_-]\s*|\s+/)
 
 	for (var i = 0; i < parts.length; i++) {
 		var part = parts[i].toLowerCase()

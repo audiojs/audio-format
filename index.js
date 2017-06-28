@@ -53,14 +53,13 @@ var channelName = {}
 for (var name in channelNumber) {
 	channelName[channelNumber[name]] = name
 }
-
 //parse format string
 function parse (str) {
 	assert(typeof str === 'string', 'Format to parse should be a string')
 
 	var format = {}
 
-	var parts = str.split(/\s*[,;_-]\s*|\s+/)
+	var parts = str.split(/\s*[,;_]\s*|\s+/)
 
 	for (var i = 0; i < parts.length; i++) {
 		var part = parts[i].toLowerCase()

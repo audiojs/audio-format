@@ -28,7 +28,7 @@ t('parse commas and colons', t => {
 		{channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
 	)
 	t.deepEqual(
-		format.parse('stereo;audiobuffer - 96000'),
+		format.parse('stereo;audiobuffer_96000'),
 		{channels: 2, type: 'audiobuffer', sampleRate: 96000, interleaved: false, endianness: 'le'}
 	)
 	t.end()
@@ -93,17 +93,22 @@ t('parse planar channels', t => {
 	t.end()
 })
 
-t('parse interleaved obj', t => {
+t('parse custom channels', t => {
+	t.deepEqual(format.parse('3-channel'), {channels: 3})
+	t.end()
+})
+
+t('detect interleaved obj', t => {
 	t.deepEqual(format.detect({interleaved: true}), {channels: 2, interleaved: true})
 
 	t.end()
 })
 
-
-t('parse obj', t => {
+t('detect obj', t => {
 	t.deepEqual(format.detect({type: 'int16'}), {type: 'int16'})
 	t.end()
 })
+
 
 
 t('stringify plain', t => {

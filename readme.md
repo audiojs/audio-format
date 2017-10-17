@@ -69,7 +69,7 @@ format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 
 | Value | Meaning |
 |---|---|
-| `'interleaved'` | `interleaved` is `true`, `channels` is `2` or more. |
+| `'interleaved'`, `'interleave'` | `interleaved` is `true`, `channels` is `2` or more. |
 | `'planar'` | `interleaved` is `false`, `channels` is `2` or more. |
 
 #### `endianness` property marker
@@ -107,7 +107,7 @@ format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 | `'int8'` | _Int8Array_ |
 | `'int16'` | _Int16Array_ |
 | `'int32'` | _Int32Array_ |
-| `'float32'` | _Float32Array_ |
+| `'float32'`, `'float'` | _Float32Array_ |
 | `'float64'` | _Float64Array_ |
 | `'array'` | _Array_ |
 | `'arraybuffer'` | _ArrayBuffer_ |

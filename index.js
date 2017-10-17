@@ -32,12 +32,12 @@ var types = {
 	'float': 'float32',
 	'float32': 'float32',
 	'float64': 'float64',
-	'array': 'float32',
-	'arraybuffer': 'uint8',
-	'buffer': 'uint8',
-	'audiobuffer': 'float32',
-	'ndarray': 'float32',
-	'ndsamples': 'float32'
+	'array': 'array',
+	'arraybuffer': 'arraybuffer',
+	'buffer': 'buffer',
+	'audiobuffer': 'audiobuffer',
+	'ndarray': 'ndarray',
+	'ndsamples': 'ndsamples'
 }
 var channelNumber = {
 	'mono': 1,
@@ -77,7 +77,7 @@ function parse (str) {
 		else if (part === 'le') format.endianness = 'le'
 		else if (part === 'be') format.endianness = 'be'
 		else if (types[part]) {
-			format.type = part
+			format.type = types[part]
 			if (part === 'audiobuffer') {
 				format.endianness = endianness
 				format.interleaved = false

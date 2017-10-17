@@ -8,7 +8,7 @@ var os = require('os')
 var isAudioBuffer = require('is-audio-buffer')
 var isBuffer = require('is-buffer')
 var isPlainObj = require('is-plain-obj')
-var assert = require('assert')
+var defined = require('defined')
 
 module.exports = {
 	parse: parse,
@@ -20,13 +20,16 @@ module.exports = {
 var endianness = os.endianness instanceof Function ? os.endianness().toLowerCase() : 'le'
 
 var types = {
+	'uint': 'uint32',
 	'uint8': 'uint8',
 	'uint8_clamped': 'uint8',
 	'uint16': 'uint16',
 	'uint32': 'uint32',
+	'int': 'int32',
 	'int8': 'int8',
 	'int16': 'int16',
 	'int32': 'int32',
+	'float': 'float32',
 	'float32': 'float32',
 	'float64': 'float64',
 	'array': 'float32',
@@ -55,8 +58,6 @@ for (var name in channelNumber) {
 }
 //parse format string
 function parse (str) {
-	assert(typeof str === 'string', 'Format to parse should be a string')
-
 	var format = {}
 
 	var parts = str.split(/\s*[,;_]\s*|\s+/)
@@ -68,7 +69,7 @@ function parse (str) {
 			format.interleaved = false
 			if (format.channels == null) format.channels = 2
 		}
-		else if (part === 'interleaved' && format.interleaved == null) {
+		else if ((part === 'interleave' || part === 'interleaved') && format.interleaved == null) {
 			format.interleaved = true
 			if (format.channels == null) format.channels = 2
 		}
@@ -98,10 +99,10 @@ function detect (obj) {
 	var format = {}
 
 	//non-string args
-	var channels = obj.channels || obj.numberOfChannels || obj.channelCount
-	var sampleRate = obj.sampleRate || obj.rate || (obj.format && obj.format.sampleRate)
-	var interleaved = obj.interleaved
-	var type = getType(obj) || obj.dtype || obj.type
+	var channels = defined(obj.channels, obj.numberOfChannels, obj.channelCount)
+	var sampleRate = defined(obj.sampleRate, obj.rate, (obj.format && obj.format.sampleRate))
+	var interleaved = defined(obj.interleaved, obj.interleave)
+	var type = defined(getType(obj), obj.dtype, obj.type)
 
 	if (channels) format.channels = channels
 	if (sampleRate) format.sampleRate = sampleRate

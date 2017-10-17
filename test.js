@@ -49,6 +49,7 @@ t('detect typed array', t => {
 		{type: 'uint8_clamped'}
 	)
 
+
 	t.end()
 })
 
@@ -167,3 +168,4 @@ t('format.type', t => {
 
 	t.end()
 })
+

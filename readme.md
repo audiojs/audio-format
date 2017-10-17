@@ -119,5 +119,4 @@ format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 
 ## See also
 
-* [audio-convert](https://github.com/audiojs/pcm-convert) convert, remix or resample audio data
 * [pcm-convert](https://github.com/audiojs/pcm-convert) converts low-level pcm data from one format to another

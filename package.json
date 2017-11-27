@@ -1,6 +1,6 @@
 {
   "name": "audio-format",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Parse or stringify audio format",
   "main": "index.js",
   "scripts": {

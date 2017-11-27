@@ -1,12 +1,10 @@
 # audio-format [![Build Status](https://travis-ci.org/audiojs/audio-format.svg?branch=master)](https://travis-ci.org/audiojs/audio-format) [![unstable](https://img.shields.io/badge/stability-unstable-green.svg)](http://github.com/badges/stability-badges) [![Greenkeeper badge](https://badges.greenkeeper.io/audiojs/audio-format.svg)](https://greenkeeper.io/)
 
-Shorthand notation for audio data formats.
-
-## Usage
+Audio data format parser/detector/serializer.
 
 [![npm install audio-format](https://nodei.co/npm/audio-format.png?mini=true)](https://npmjs.org/package/audio-format/)
 
-### obj = format.parse(string|obj)
+### obj = format.parse(string)
 
 Parse format properties from a string. Returns only guaranteed properties and does not try to guess them.
 
@@ -20,7 +18,7 @@ format.parse('stereo audiobuffer 96000')
 
 ### str = format.stringify(obj, defaults?)
 
-Get string identifying the format object. Optional `defaults` object can indicate properties to skip if format value matches them.
+Get string identifying a format object. Optional `defaults` can indicate properties to skip if format value matches them.
 
 ```js
 format.stringify({channels: 2, interleaved: false})
@@ -38,7 +36,7 @@ format.stringify(new AudioBuffer(null, {length: 10}))
 
 ### obj = format.detect(obj)
 
-Retrieve available format properties from any audio-like object.
+Retrieve available format properties from an audio-like object.
 
 ```js
 format.detect(new AudioBuffer(null, {length: 10, numberOfChannels: 2}))
@@ -65,21 +63,21 @@ format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 ```
 
 
-#### `interleaved` property marker
+#### `format.interleaved` marker
 
 | Value | Meaning |
 |---|---|
 | `'interleaved'`, `'interleave'` | `interleaved` is `true`, `channels` is `2` or more. |
 | `'planar'` | `interleaved` is `false`, `channels` is `2` or more. |
 
-#### `endianness` property marker
+#### `format.endianness` marker
 
 | Value | Meaning |
 |---|---|
 | `'le'` | `endianness` is `'le'` (little endian), `type` is not `'int8'` or `'uint8'` |
 | `'be'` | `endianness` is `'be'` (big endian), `type` is not `'int8'` or `'uint8'` |
 
-#### `channels` property marker
+#### `format.channels` marker
 
 | Value | Meaning |
 |---|---|
@@ -90,13 +88,13 @@ format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 | `'5.1'` | 5 channels |
 | `'*-channel'` | N channels |
 
-#### `sampleRate` property marker
+#### `format.sampleRate` marker
 
 | Value | Meaning |
 |---|---|
 | `Number` | Any number, primarily [default sample-rates](https://github.com/audiojs/sample-rate) |
 
-#### `type` property marker
+#### `format.type` marker
 
 | Value | Meaning |
 |---|---|
@@ -120,3 +118,8 @@ format.type(ndarray([0,0,0,0], [2,2])) // 'ndarray'
 ## See also
 
 * [pcm-convert](https://github.com/audiojs/pcm-convert) converts low-level pcm data from one format to another
+
+
+## License
+
+(c) 2017 Dmitry Yvanov @ audiojs. MIT License

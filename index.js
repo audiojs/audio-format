@@ -8,7 +8,7 @@ var os = require('os')
 var isAudioBuffer = require('is-audio-buffer')
 var isBuffer = require('is-buffer')
 var isPlainObj = require('is-plain-obj')
-var defined = require('defined')
+var pick = require('pick-by-alias')
 
 module.exports = {
 	parse: parse,
@@ -44,6 +44,7 @@ var channelNumber = {
 	'stereo': 2,
 	'quad': 4,
 	'5.1': 6,
+	'2.1': 3,
 	'3-channel': 3,
 	'5-channel': 5
 }
@@ -96,22 +97,26 @@ function parse (str) {
 function detect (obj) {
 	if (!obj) return {}
 
-	var format = {}
+	var format = pick(obj, {
+		channels: 'channel channels numberOfChannels channelCount',
+		sampleRate: 'sampleRate rate',
+		interleaved: 'interleave interleaved',
+		type: 'type',
+		endianness: 'endianness'
+	})
 
-	//non-string args
-	var channels = defined(obj.channels, obj.numberOfChannels, obj.channelCount)
-	var sampleRate = defined(obj.sampleRate, obj.rate, (obj.format && obj.format.sampleRate))
-	var interleaved = defined(obj.interleaved, obj.interleave)
-	var type = defined(getType(obj), obj.dtype, obj.type)
-
-	if (channels) format.channels = channels
-	if (sampleRate) format.sampleRate = sampleRate
-	if (interleaved != null) {
-		format.interleaved = interleaved
+	// ndsamples case
+	if (format.sampleRate == null && obj.format && obj.format.sampleRate) {
+		format.sampleRate = obj.format.sampleRate
+	}
+	if (obj.planar) format.interleaved = false
+	if (format.interleaved != null) {
 		if (format.channels == null) format.channels = 2
 	}
-	if (type) format.type = type
-	if (obj.endianness) format.endianness = obj.endianness
+	if (format.type == null) {
+		var type = getType(obj)
+		if (type) format.type = type
+	}
 
 	if (format.type === 'audiobuffer') {
 		format.endianness = endianness
@@ -151,19 +156,19 @@ function stringify (format, omit) {
 
 
 //return type string for an object
-function getType (str) {
-	if (isAudioBuffer(str)) return 'audiobuffer'
-	if (isBuffer(str)) return 'buffer'
-	if (Array.isArray(str)) return 'array'
-	if (str instanceof ArrayBuffer) return 'arraybuffer'
-	if (str.shape && str.dtype) return str.format ? 'ndsamples' : 'ndarray'
-	if (str instanceof Float32Array) return 'float32'
-	if (str instanceof Float64Array) return 'float64'
-	if (str instanceof Uint8Array) return 'uint8'
-	if (str instanceof Uint8ClampedArray) return 'uint8_clamped'
-	if (str instanceof Int8Array) return 'int8'
-	if (str instanceof Int16Array) return 'int16'
-	if (str instanceof Uint16Array) return 'uint16'
-	if (str instanceof Int32Array) return 'int32'
-	if (str instanceof Uint32Array) return 'uint32'
+function getType (arg) {
+	if (isAudioBuffer(arg)) return 'audiobuffer'
+	if (isBuffer(arg)) return 'buffer'
+	if (Array.isArray(arg)) return 'array'
+	if (arg instanceof ArrayBuffer) return 'arraybuffer'
+	if (arg.shape && arg.dtype) return arg.format ? 'ndsamples' : 'ndarray'
+	if (arg instanceof Float32Array) return 'float32'
+	if (arg instanceof Float64Array) return 'float64'
+	if (arg instanceof Uint8Array) return 'uint8'
+	if (arg instanceof Uint8ClampedArray) return 'uint8_clamped'
+	if (arg instanceof Int8Array) return 'int8'
+	if (arg instanceof Int16Array) return 'int16'
+	if (arg instanceof Uint16Array) return 'uint16'
+	if (arg instanceof Int32Array) return 'int32'
+	if (arg instanceof Uint32Array) return 'uint32'
 }

@@ -75,8 +75,8 @@ function parse (str) {
 			if (format.channels == null) format.channels = 2
 		}
 		else if (channelNumber[part]) format.channels = channelNumber[part]
-		else if (part === 'le') format.endianness = 'le'
-		else if (part === 'be') format.endianness = 'be'
+		else if (part === 'le' || part === 'LE' || part === 'littleendian' || part === 'bigEndian') format.endianness = 'le'
+		else if (part === 'be' || part === 'BE' || part === 'bigendian' || part === 'bigEndian') format.endianness = 'be'
 		else if (types[part]) {
 			format.type = types[part]
 			if (part === 'audiobuffer') {
@@ -101,11 +101,14 @@ function detect (obj) {
 		channels: 'channel channels numberOfChannels channelCount',
 		sampleRate: 'sampleRate rate',
 		interleaved: 'interleave interleaved',
-		type: 'type',
+		type: 'type dtype',
 		endianness: 'endianness'
 	})
 
 	// ndsamples case
+	if (obj.format) {
+		format.type = 'ndsamples'
+	}
 	if (format.sampleRate == null && obj.format && obj.format.sampleRate) {
 		format.sampleRate = obj.format.sampleRate
 	}

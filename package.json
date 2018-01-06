@@ -37,7 +37,7 @@
     "sample-rate": "^2.0.0"
   },
   "devDependencies": {
-    "audio-buffer": "^4.0.1",
+    "audio-buffer": "4.0.3",
     "ndarray": "^1.0.18",
     "ndsamples": "^1.0.0",
     "tape": "^4.6.3"

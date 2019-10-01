@@ -31,7 +31,7 @@
   "homepage": "https://github.com/audiojs/audio-format",
   "dependencies": {
     "is-audio-buffer": "^1.0.11",
-    "is-buffer": "^1.1.5",
+    "is-buffer": "^2.0.4",
     "is-plain-obj": "^2.0.0",
     "pick-by-alias": "^1.2.0",
     "sample-rate": "^2.0.0"
